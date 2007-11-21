@@ -1,0 +1,7 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/publisher.rb
+test/publisher_test.rb
+test/test_helper.rb
