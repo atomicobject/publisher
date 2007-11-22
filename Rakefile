@@ -26,10 +26,21 @@ end
 task :setup_homepage => [ :clean, :redocs ] do
   mv "doc", "rdoc"
   cp_r "homepage", "doc"
+  Find.find("doc") do |f|
+    if File.basename(f) == ".svn"
+      puts "Killing #{f}"
+      rm_rf f
+      Find.prune
+    elsif f =~ /(\.erb$|\.graffle$)/
+      puts "Killing #{f}"
+      rm f
+    end
+  end
   mv "rdoc", "doc"
 end
 
 task :publish_docs => :setup_homepage
+
 
 
 #Rake::Task['publish_docs'].instance_variable_get("@actions").clear
