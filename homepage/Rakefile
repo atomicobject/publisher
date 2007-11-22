@@ -1,0 +1,12 @@
+desc "Rewrite index.html using index.erb and publisher_homepage.html"
+task :index do
+  require 'erb'
+  html = ERB.new(File.read("index.erb")).result
+  fname = "index.html"
+  File.open(fname,"w") do |f|
+    f.print html
+  end
+  puts "Wrote #{fname}"
+end
+
+task :default => :index
