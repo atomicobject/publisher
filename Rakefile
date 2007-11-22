@@ -13,6 +13,9 @@ Rake::TestTask.new("test") { |t|
   t.verbose = true
 }
 
+#
+# Hoe stuff: rubyforge project release
+#
 Hoe.new('publisher', Publisher::VERSION) do |p|
   p.rubyforge_name = 'atomicobjectrb'
   p.author = 'Atomic Object'
@@ -23,6 +26,13 @@ Hoe.new('publisher', Publisher::VERSION) do |p|
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
 end
 
+#
+# Documentation
+#
+# Alter publish_docs to rearrange the doc directory to contain the project
+# homepage, and move doc one level down, into rdoc
+task :publish_docs => :setup_homepage
+# nodoc 
 task :setup_homepage => [ :clean, :redocs ] do
   mv "doc", "rdoc"
   cp_r "homepage", "doc"
@@ -39,28 +49,21 @@ task :setup_homepage => [ :clean, :redocs ] do
   mv "rdoc", "doc"
 end
 
-task :publish_docs => :setup_homepage
-
-
-
-#Rake::Task['publish_docs'].instance_variable_get("@actions").clear
-#task :publish_docs => :setup_homepage do 
-#  config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
-#  host = "#{config["username"]}@rubyforge.org"
 #
-#  remote_dir = "/var/www/gforge-projects/#{rubyforge_name}/#{remote_rdoc_dir}"
-#  local_dir = 'doc'
+# Release tagging
 #
-#  sh %{rsync #{rsync_args} #{local_dir}/ #{host}:#{remote_dir}}
-#end
-
-#    desc "Publish RDoc to RubyForge"
-#    task :publish_docs => [:clean, :docs] do
-#      config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
-#      host = "#{config["username"]}@rubyforge.org"
-#
-#      remote_dir = "/var/www/gforge-projects/#{rubyforge_name}/#{remote_rdoc_dir}"
-#      local_dir = 'doc'
-#
-#      sh %{rsync #{rsync_args} #{local_dir}/ #{host}:#{remote_dir}}
-#    end
+desc "Tag the current release in svn AND update the 'current' release tag"
+task :tag_release do
+  config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
+  host = "#{config["username"]}@rubyforge.org"
+  package = "publisher"
+  tags = "svn+ssh://#{host}/var/svn/atomicobjectrb/tags" 
+  version = Publisher::VERSION
+  sh "svn cp . #{tags}/#{package}-#{version} -m 'Releasing #{package}-#{version}'"
+  begin
+    sh "svn del #{tags}/#{package} -m 'Preparing to update current release tag for #{package}'"
+  rescue Exception
+    puts "(didn't delete previous current tag)"
+  end
+  sh "svn cp . #{tags}/#{package} -m 'Updating current release tag for #{package} to version #{version}'"
+end
