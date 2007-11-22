@@ -1,6 +1,6 @@
 publisher
 * http://rubyforge.org/projects/atomicobjectrb/
-* http://atomicobjectrb.rubyforge.org/constructor
+* http://atomicobjectrb.rubyforge.org/publisher
 
 == DESCRIPTION:
   
