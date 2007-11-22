@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Publisher - atomicobject.rb</title>
+    <title><%= @title %></title>
   </head>
   <style>
   #rails_plugin_installation {
@@ -14,9 +14,9 @@
 
     <div align="center">
 
-      <%= File.read("publisher_homepage.html") %>
+      <%= @header_html  %>
 
-      <div id="rails_plugin_installation">$ script/plugin install svn://rubyforge.org/var/svn/atomicobjectrb/tags/publisher</div>
+      <div id="rails_plugin_installation"><%= @plugin_install %></div>
 
       <a href="rdoc/index.html"><img border=0 src="sample_code.png"></a>
     </div>
