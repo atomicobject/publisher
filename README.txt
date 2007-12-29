@@ -6,7 +6,7 @@ publisher
   
 publisher is a module for extending a class with event subscription and firing capabilities.  This is helpful for implementing objects that participate in the Observer design pattern.
 
-== FEATURES/PROBLEMS:
+== FEATURES:
   
 * Nice syntax for declaring events that can be subscribed for
 * Convenient event firing syntax

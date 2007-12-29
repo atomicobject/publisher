@@ -188,20 +188,6 @@ class PublisherTest < Test::Unit::TestCase
 		assert_equal 'huh', out
 	end
 
-# Cannot inherit events right now
-#  class SomebodyKid < Somebody
-#	end
-#
-#	def test_inheriting_events
-#		obj = SomebodyKid.new
-#		out = nil
-#		obj.on :eat_this do |food|
-#			out = food
-#		end
-#		obj.go "taco"
-#		assert_equal "taco", out
-#	end
-
 	def test_extending_publisher_doesnt_affect_normal_inheritance
 		obj = Billy.new('wheel')
 		assert_equal 'wheel', obj.chair
@@ -248,6 +234,56 @@ class PublisherTest < Test::Unit::TestCase
 		assert_equal "burger", out1, "First subscription no go"
 		assert_equal "burger", out2, "Second subscription no go"
 	end
+
+  def test_subclasses_inherit_events
+    a = []
+    grampa = Grandfather.new
+    grampa.on :cannons do
+      a <<  "grampa's cannons" 
+    end
+
+    dad = Dad.new
+    dad.on :cannons do
+      a <<  "dad's cannons" 
+    end
+
+    dave = Dave.new
+    dave.on :cannons do
+      a <<  "dave's cannons" 
+    end
+    dave.on :specific do
+      a <<  "dave's specific" 
+    end
+
+    grampa.go
+    dad.go
+    dave.go
+    dave.doit
+
+    assert_equal [ 
+      "grampa's cannons",
+      "dad's cannons",
+      "dave's cannons",
+      "dave's specific"
+    ], a
+  end
+
+  def test_subclasses_inherit_wide_open_events
+    a = []
+    dynamo = Dynamo.new
+    dynamo.when :surprise do
+      a << "surprise"
+    end
+    dynamo.go(:surprise)
+
+    son = SonOfDynamo.new
+    son.when :hooray do
+      a << "hooray"
+    end
+    son.kick_it(:hooray)
+
+    assert_equal [ "surprise", "hooray" ], a
+  end
  
 	#
 	# HELPERS
@@ -354,5 +390,39 @@ class PublisherTest < Test::Unit::TestCase
 			fire :really_awesome, arg
 		end
 	end
+
+  class Grandfather 
+    extend Publisher
+    can_fire :cannons
+
+    def go
+      fire :cannons
+    end
+  end
+
+  class Dad < Grandfather
+  end
+
+  class Dave < Dad
+    can_fire :specific
+
+    def doit
+      fire :specific
+    end
+  end
+  
+  class Dynamo
+    extend Publisher
+    can_fire_anything
+    def go(sym)
+      fire sym
+    end
+  end
+
+  class SonOfDynamo < Dynamo
+    def kick_it(sym)
+      fire sym
+    end
+  end
 
 end

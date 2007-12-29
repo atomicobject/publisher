@@ -1,6 +1,6 @@
 # See README.txt for synopsis 
 module Publisher
-  VERSION = "1.1.0" #:nodoc:#
+  VERSION = "1.1.1" #:nodoc:#
 
 	# Use this method (or one of the aliases) to declare which events you support
 	# Once invoked, your class will have the neccessary supporting methods for subscribing and firing.
@@ -12,6 +12,19 @@ module Publisher
 	end
 	alias :has_event :has_events
 	alias :can_fire :has_events
+
+  def published_events
+    return @published_events if @published_events == :any_event_is_ok
+    my_events = @published_events || []
+    if self.superclass.respond_to?(:published_events)
+      inherited = self.superclass.published_events
+      if inherited == :any_event_is_ok
+        return :any_event_is_ok
+      end
+      my_events += self.superclass.published_events
+    end
+    my_events
+  end
 
 	# Use this method to allow subscription and firing of arbitrary events.
 	# This is convenient if, eg, your class has dynamic event names.
@@ -65,7 +78,8 @@ module Publisher
 		# Does nothing if the current class supports the named event.
 		# Raises RuntimeError otherwise.
 		def ensure_valid(event) #:nodoc:#
-			events = self.class.class_eval { @published_events }
+#			events = self.class.class_eval { @published_events }
+			events = self.class.published_events
 			return if events == :any_event_is_ok
 			raise "Event '#{event}' not available" unless events and events.include?(event)
 		end
