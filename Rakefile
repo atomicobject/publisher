@@ -26,10 +26,11 @@ Hoe.new('publisher', Publisher::VERSION) do |p|
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
 end
 
-load "../tools/tasks/homepage.rake"
-
-load "../tools/tasks/release_tagging.rake"
-ReleaseTagging.new do |t|
-  t.package = "publisher"
-  t.version = Publisher::VERSION
+if File.exists?("../tools/")
+  load "../tools/tasks/homepage.rake"
+  load "../tools/tasks/release_tagging.rake"
+  ReleaseTagging.new do |t|
+    t.package = "publisher"
+    t.version = Publisher::VERSION
+  end
 end
