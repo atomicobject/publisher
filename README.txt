@@ -1,6 +1,7 @@
-publisher
-* http://rubyforge.org/projects/atomicobjectrb/
+== Publisher
+
 * http://atomicobjectrb.rubyforge.org/publisher
+* http://rubyforge.org/projects/atomicobjectrb/
 
 == DESCRIPTION:
   
