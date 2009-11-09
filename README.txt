@@ -1,7 +1,8 @@
 == Publisher
 
-* http://atomicobjectrb.rubyforge.org/publisher
-* http://rubyforge.org/projects/atomicobjectrb/
+* http://atomicobject.github.com/publisher
+* http://github.com/atomicobject/publisher
+* http://gemcutter.com/gems/publisher
 
 == DESCRIPTION:
   
