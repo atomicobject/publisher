@@ -2,7 +2,8 @@
 
 * http://atomicobject.github.com/publisher
 * http://github.com/atomicobject/publisher
-* http://gemcutter.com/gems/publisher
+* http://gemcutter.org/gems/publisher
+* http://rdoc.info/projects/atomicobject/publisher
 
 == DESCRIPTION:
   
