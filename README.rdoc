@@ -2,21 +2,21 @@
 
 * http://atomicobject.github.com/publisher
 * http://github.com/atomicobject/publisher
-* http://gemcutter.org/gems/publisher
-* http://rdoc.info/projects/atomicobject/publisher
+* http://rubygems.org/gems/publisher
+* http://rubydoc.info/gems/publisher/frames
 
-== DESCRIPTION:
+== Description
   
 publisher is a module for extending a class with event subscription and firing capabilities.  This is helpful for implementing objects that participate in the Observer design pattern.
 
-== FEATURES:
+== Features
   
 * Nice syntax for declaring events that can be subscribed for
 * Convenient event firing syntax
 * Subscribe / unsubscribe functionality
 * Several method name aliases give you the flexibility to make your code more readable (eg, *fire*, *notify*, *emit*)
 
-== SYNOPSIS:
+== Synopsis
 
   require 'rubygems'
   require 'publisher'
@@ -48,15 +48,15 @@ publisher is a module for extending a class with event subscription and firing c
   holder.add_customer("Matt")
   holder.clear_list
 
-== INSTALL:
+== Install
 
-* sudo gem install publisher
+* gem install publisher
 
-== LICENSE:
+== License
 
 (The MIT License)
 
-Copyright (c) 2007 Atomic Object
+Copyright (c) 2011 Atomic Object
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
