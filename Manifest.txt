@@ -1,6 +1,6 @@
 History.txt
 Manifest.txt
-README.txt
+README.rdoc
 Rakefile
 lib/publisher.rb
 test/publisher_test.rb

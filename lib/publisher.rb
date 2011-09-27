@@ -42,12 +42,16 @@ module Publisher
 		# Sign up a code block to be executed when an event is fired.
 		# It's important to know the signature of the event, as your proc needs 
 		# to accept incoming parameters accordingly.
-		def subscribe(event, &block)
+		def subscribe(event, target=nil, callback=nil, &block)
 		  ensure_valid event
 			@subscriptions ||= {}
 			listeners = @subscriptions[event]
 			listeners ||= []
-			listeners << block
+      if target && callback
+        listeners << [target, callback]
+      else
+        listeners << block
+      end
 			@subscriptions[event] = listeners
 		end
 		alias :when :subscribe
@@ -59,8 +63,12 @@ module Publisher
     def unsubscribe(event, listener)
 		  ensure_valid event
       if @subscriptions && @subscriptions[event]
-        @subscriptions[event].delete_if do |block|
-          eval('self',block.binding).equal?(listener)
+        @subscriptions[event].delete_if do |block_or_target|
+          if block_or_target.is_a? Proc
+            eval('self',block_or_target.binding).equal?(listener)
+          else
+            block_or_target[0] == listener
+          end
         end
       end
     end
@@ -70,7 +78,13 @@ module Publisher
 		def fire(event, *args) #:nod
 			ensure_valid event
 			listeners = @subscriptions[event] if @subscriptions
-			listeners.each do |l| l.call(*args) end if listeners
+			listeners.each do |l| 
+        if l.is_a? Array
+          l[0].send(l[1],*args)
+        else
+          l.call(*args) 
+        end
+      end if listeners
 		end
 		alias :emit :fire
 		alias :notify :fire

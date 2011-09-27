@@ -21,8 +21,8 @@ Hoe.new('publisher', Publisher::VERSION) do |p|
   p.author = 'Atomic Object'
   p.email = 'dev@atomicobject.com'
   p.summary = 'Event subscription and firing mechanism'
-  p.description = p.paragraphs_of('README.txt', 2..5).join("\n\n")
-  p.url = p.paragraphs_of('README.txt', 1).first.gsub(/\* /,'').split(/\n/)
+  p.description = p.paragraphs_of('README.rdoc', 2..5).join("\n\n")
+  p.url = p.paragraphs_of('README.rdoc', 1).first.gsub(/\* /,'').split(/\n/)
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
 end
 

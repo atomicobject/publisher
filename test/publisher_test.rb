@@ -284,10 +284,31 @@ class PublisherTest < Test::Unit::TestCase
 
     assert_equal [ "surprise", "hooray" ], a
   end
+
+  def test_new_subscribe_syntax
+    @args = nil
+    shawn = Shawn.new
+    shawn.when :boom, self, :do_it
+    shawn.go(:a, :b)
+    assert_equal @args, [:a, :b]
+  end
+
+  def test_new_unsubscribe_syntax
+    @args = nil
+    shawn = Shawn.new
+    shawn.when :boom, self, :do_it
+    shawn.unsubscribe :boom, self
+    shawn.go(:a, :b)
+    assert_nil @args
+  end
  
 	#
 	# HELPERS
 	#
+
+  def do_it(*args)
+    @args = args
+  end
 
   class SomethingWatcher
     attr_reader :observations
@@ -422,6 +443,14 @@ class PublisherTest < Test::Unit::TestCase
   class SonOfDynamo < Dynamo
     def kick_it(sym)
       fire sym
+    end
+  end
+
+  class Shawn
+    extend Publisher
+    can_fire :boom
+    def go(*args)
+      fire :boom, *args
     end
   end
 
