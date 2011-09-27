@@ -1,7 +1,5 @@
-# See README.txt for synopsis 
+# See README.rdoc for synopsis 
 module Publisher
-  VERSION = "1.1.2" #:nodoc:#
-
 	# Use this method (or one of the aliases) to declare which events you support
 	# Once invoked, your class will have the neccessary supporting methods for subscribing and firing.
 	def has_events(*args)

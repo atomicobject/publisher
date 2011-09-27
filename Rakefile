@@ -1,7 +1,5 @@
-require 'rubygems'
-require 'hoe'
-require './lib/publisher.rb'
-require 'rake'
+require "bundler/gem_tasks"
+
 require 'rake/testtask'
 
 task :default => [ :test ]
@@ -13,19 +11,7 @@ Rake::TestTask.new("test") { |t|
   t.verbose = true
 }
 
-#
-# Hoe stuff: rubyforge project release
-#
-Hoe.new('publisher', Publisher::VERSION) do |p|
-  p.rubyforge_name = 'atomicobjectrb'
-  p.author = 'Atomic Object'
-  p.email = 'dev@atomicobject.com'
-  p.summary = 'Event subscription and firing mechanism'
-  p.description = p.paragraphs_of('README.rdoc', 2..5).join("\n\n")
-  p.url = p.paragraphs_of('README.rdoc', 1).first.gsub(/\* /,'').split(/\n/)
-  p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
-end
-
+# See crosby or fletcher about these tasks
 if File.exists?("../tools/")
   load "../tools/tasks/homepage.rake"
   load "../tools/tasks/release_tagging.rake"
