@@ -1,7 +1,0 @@
-== 1.1.1 / 2007-12-28
-
-* Subclasses now inherit the events supported by their ancestors
-
-== 1.1.0 / 2007-11-21
-
-* Moved publisher out of internal AO repository into atomicobject.rb project.
