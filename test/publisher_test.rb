@@ -92,6 +92,33 @@ class PublisherTest < Test::Unit::TestCase
     assert_equal ['a','b','c'], out
   end
 
+  def test_unsubscribe_all_unsubscribes_the_unsubscriber_from_all_events
+    something = Something.new
+    watcher = SomethingWatcher.new something
+
+    out = []
+    something.on :boom do
+      out << 'a'
+    end
+    something.on :boom do
+      out << 'b'
+    end
+    something.on :pow do
+      out << 'c'
+    end
+
+    something.do_boom
+    something.do_pow
+    assert_equal ['a','b','c'], out
+    assert_equal ['boom'], watcher.observations
+
+    something.unsubscribe_all self
+    something.do_boom
+    something.do_pow
+    assert_equal ['a','b','c'], out
+    assert_equal ['boom','boom'], watcher.observations
+  end
+
 	def test_subscribe_and_fire
 		obj = Something.new
 
