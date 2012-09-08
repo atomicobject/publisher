@@ -70,6 +70,7 @@ module Publisher
         end
       end
     end
+    alias :off :unsubscribe
 
     # Unsubscribe from all events.  Like calling 'unsubscribe' for all events that
     # 'listener' has subscribed to.
