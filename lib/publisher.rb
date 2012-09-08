@@ -71,6 +71,16 @@ module Publisher
       end
     end
 
+    # Unsubscribe from all events.  Like calling 'unsubscribe' for all events that
+    # 'listener' has subscribed to.
+    def unsubscribe_all(listener)
+      if @subscriptions
+        @subscriptions.keys.each do |event|
+          unsubscribe(event, listener)
+        end
+      end
+    end
+
     protected
     # Fire an event with 0 or more outbound parameters
     def fire(event, *args) #:nod
